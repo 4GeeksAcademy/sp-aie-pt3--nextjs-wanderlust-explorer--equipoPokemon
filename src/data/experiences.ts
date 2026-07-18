@@ -1,6 +1,32 @@
-import { Experience } from '../types/Experience';
+import { Experience, ExperienceCategory } from '../types/Experience';
 
-export const experiences: Experience[] = [
+interface RawExperience {
+  id: string;
+  title: string;
+  description: string;
+  location: string;
+  price: number;
+  rating: number;
+  reviewsCount: number;
+  imageUrl: string;
+  duration: string;
+}
+
+const CATEGORY_KEYWORDS: Array<{ category: ExperienceCategory; pattern: RegExp }> = [
+  { category: 'Food', pattern: /food tasting|cooking class|wine tasting/i },
+  { category: 'Nature', pattern: /hiking adventure|scuba diving/i },
+  { category: 'Wellness', pattern: /sunset cruise|santorini|bali/i },
+  { category: 'Culture', pattern: /museum visit|historical walk|photography tour/i },
+  { category: 'Adventure', pattern: /city tour/i },
+];
+
+function deriveCategory(experience: RawExperience): ExperienceCategory {
+  const text = `${experience.title} ${experience.location}`;
+  const matched = CATEGORY_KEYWORDS.find(({ pattern }) => pattern.test(text));
+  return matched?.category ?? 'Adventure';
+}
+
+const rawExperiences: RawExperience[] = [
   {
     "id": "1",
     "title": "Food Tasting in New York",
@@ -1102,3 +1128,16 @@ export const experiences: Experience[] = [
     "duration": "1 hours"
   }
 ];
+
+export const experiences: Experience[] = rawExperiences.map((experience) => ({
+  id: experience.id,
+  title: experience.title,
+  description: experience.description,
+  category: deriveCategory(experience),
+  destination: experience.location,
+  price: experience.price,
+  rating: experience.rating,
+  imageUrl: experience.imageUrl,
+  reviewsCount: experience.reviewsCount,
+  duration: experience.duration,
+}));
