@@ -1,11 +1,19 @@
+export type ExperienceCategory =
+  | 'Adventure'
+  | 'Culture'
+  | 'Food'
+  | 'Wellness'
+  | 'Nature';
+
 export interface Experience {
   id: string;
   title: string;
   description: string;
-  location: string;
+  category: ExperienceCategory;
+  destination: string;
   price: number;
   rating: number;
-  reviewsCount: number;
   imageUrl: string;
-  duration: string;
+  reviewsCount?: number;
+  duration?: string;
 }
