@@ -57,14 +57,29 @@ export function ExperienceCard({
           <button
             type="button"
             onClick={() => onToggleFavorite(experience.id)}
-            className={`rounded-xl px-3 py-2 text-sm font-semibold transition ${
+            className={`inline-flex h-10 w-10 items-center justify-center rounded-xl transition ${
               isFavorite
                 ? 'bg-rose-100 text-rose-700 hover:bg-rose-200'
-                : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+                : 'bg-slate-100 text-slate-500 hover:bg-slate-200 hover:text-slate-700'
             }`}
+            aria-pressed={isFavorite}
             aria-label={isFavorite ? 'Quitar de favoritos' : 'Guardar en favoritos'}
           >
-            {isFavorite ? 'Guardado' : 'Favorito'}
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill={isFavorite ? 'currentColor' : 'none'}
+              stroke="currentColor"
+              strokeWidth="2"
+              className="h-5 w-5"
+              aria-hidden="true"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M12 21s-6.716-4.35-9.193-8.293C1.063 9.931 2.215 6.5 5.545 5.49c2.023-.614 3.662.176 4.643 1.428.981-1.252 2.62-2.042 4.643-1.428 3.33 1.01 4.482 4.441 2.738 7.217C18.716 16.65 12 21 12 21z"
+              />
+            </svg>
           </button>
         </div>
       </div>

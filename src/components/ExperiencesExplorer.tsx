@@ -6,10 +6,14 @@ import { experiences } from '@/data/experiences';
 import { ExperienceCard } from '@/components/ExperienceCard';
 import { FilterBar } from '@/components/FilterBar';
 import { SearchBar } from '@/components/SearchBar';
-import { useFavorites } from '@/hooks/useFavorites';
 import { useExperienceFilters } from '@/hooks/useExperienceFilters';
 
-export function ExperiencesExplorer() {
+interface ExperiencesExplorerProps {
+  favoriteIds: string[];
+  onToggleFavorite: (id: string) => void;
+}
+
+export function ExperiencesExplorer({ favoriteIds, onToggleFavorite }: ExperiencesExplorerProps) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -17,8 +21,6 @@ export function ExperiencesExplorer() {
   const searchTerm = searchParams.get('search') ?? '';
   const category = searchParams.get('category') ?? '';
   const destinationTerm = searchParams.get('destination') ?? '';
-
-  const { isFavorite, toggleFavorite } = useFavorites();
 
   function updateParam(name: 'search' | 'category' | 'destination', value: string) {
     const params = new URLSearchParams(searchParams.toString());
@@ -45,6 +47,8 @@ export function ExperiencesExplorer() {
     () => `${filteredExperiences.length} de ${experiences.length} experiencias`,
     [filteredExperiences.length],
   );
+
+  const favoriteSet = useMemo(() => new Set(favoriteIds), [favoriteIds]);
 
   return (
     <main className="min-h-screen bg-slate-50 px-4 py-8 sm:px-6 lg:px-8">
@@ -81,8 +85,8 @@ export function ExperiencesExplorer() {
               <ExperienceCard
                 key={experience.id}
                 experience={experience}
-                isFavorite={isFavorite(experience.id)}
-                onToggleFavorite={toggleFavorite}
+                isFavorite={favoriteSet.has(experience.id)}
+                onToggleFavorite={onToggleFavorite}
               />
             ))}
           </div>

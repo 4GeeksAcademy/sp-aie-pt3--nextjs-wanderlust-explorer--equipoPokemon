@@ -1,5 +1,5 @@
 import { Suspense } from 'react';
-import { ExperiencesExplorer } from '@/components/ExperiencesExplorer';
+import { ExperiencesPageClient } from '@/components/ExperiencesPageClient';
 
 export default function ExperiencesPage() {
   return (
@@ -12,7 +12,7 @@ export default function ExperiencesPage() {
         </main>
       }
     >
-      <ExperiencesExplorer />
+      <ExperiencesPageClient />
     </Suspense>
   );
 }
