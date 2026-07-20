@@ -2,6 +2,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
+import { useEffect } from 'react';
 import type { Experience } from '@/types/Experience';
 import { useFavorites } from '@/hooks/useFavorites';
 
@@ -12,6 +13,15 @@ interface ExperienceDetailProps {
 export function ExperienceDetail({ experience }: ExperienceDetailProps) {
   const { isFavorite, toggleFavorite } = useFavorites();
   const favorite = isFavorite(experience.id);
+
+  useEffect(() => {
+    const previousTitle = document.title;
+    document.title = `${experience.title} | Wanderlust Explorer`;
+
+    return () => {
+      document.title = previousTitle;
+    };
+  }, [experience.title]);
 
   return (
     <main className="min-h-screen bg-slate-50 px-4 py-8 sm:px-6 lg:px-8">
